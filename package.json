@@ -1,0 +1,19 @@
+{
+  "name": "fontello-local",
+  "packageManager": "yarn@3.5.1",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "devDependencies": {
+    "@types/css": "^0.0.33",
+    "@types/fs-extra": "^11.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "css": "^3.0.0",
+    "fs-extra": "^11.1.1",
+    "webfont": "^11.2.26"
+  }
+}
