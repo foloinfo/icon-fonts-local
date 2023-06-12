@@ -1,61 +1,63 @@
-import * as fs from "fs-extra";
-import * as path from "path";
+import * as fs from "fs-extra"
+import * as path from "path"
 
-import * as webfont from "webfont";
-import * as css from 'css';
-import * as util from 'util';
+import * as webfont from "webfont"
+import * as css from 'css'
+import * as util from 'util'
 
-const inputDir = "./svgs"; // input directory containing SVG files
-const outputDir = "./output"; // output directory for TTF file and config.json
-const fontName = "myfont"; // desired font name
-
-async function generateFont(): Promise<void> {
+async function generateFont(
+  inputDir: string,
+  outputDir: string,
+  fontName: string,
+): Promise<void> {
   // Read svgs
-  const svgs = (await fs.readdir(inputDir)).filter((file) => file.endsWith('.svg'));
+  const svgs = (await fs.readdir(inputDir)).filter((file) => file.endsWith('.svg'))
+
+  console.log(`${svgs.length} svgs found`)
 
   // Create webfont
   const result = await webfont.webfont({
     files: svgs.map((svg) => path.join(inputDir, svg)),
     formats: ['ttf'],
     template: 'css',
-  });
+  })
 
   // Parse css to extract glyph metadata
-  const parsedCss = css.parse(result.template as string, { source: 'generated' });
-  const glyphsRules = (parsedCss.stylesheet!.rules as any[]).filter((rule) => rule.selectors && rule.selectors[0].endsWith("::before"));
-  const glyphsMetadata: any[] = [];
+  const parsedCss = css.parse(result.template as string, { source: 'generated' })
+  const glyphsRules = (parsedCss.stylesheet!.rules as any[]).filter((rule) => rule.selectors && rule.selectors[0].endsWith("::before"))
+  const glyphsMetadata: any[] = []
 
   glyphsRules.forEach((rule: any, index: number) => {
     if (rule.type === 'rule') {
-      const selectors = rule.selectors;
-      const nameMatch = /(?:\.)webfont-(\w+)/.exec(selectors![0]);
+      const selectors = rule.selectors
+      const nameMatch = /(?:\.)webfont-(\w+)/.exec(selectors![0])
 
       if (nameMatch) {
-        const cssName = nameMatch[1];
-        const declaration = (rule.declarations as css.Declaration[])[0];
-        const unicodeMatch = /"\\(\w+)"/.exec(declaration.value!);
+        const cssName = nameMatch[1]
+        const declaration = (rule.declarations as css.Declaration[])[0]
+        const unicodeMatch = /"\\(\w+)"/.exec(declaration.value!)
 
         if (unicodeMatch) {
-          const unicodeStr = unicodeMatch[1].toLowerCase();
-          const unicodeNum = parseInt(unicodeStr, 16);
-          const name = svgs[index].replace('.svg', '');
+          const unicodeStr = unicodeMatch[1].toLowerCase()
+          const unicodeNum = parseInt(unicodeStr, 16)
+          const name = svgs[index].replace('.svg', '')
 
           glyphsMetadata.push({
             uid: unicodeStr,
             css: name,
             code: unicodeNum,
             search: [name],
-          });
+          })
         }
       }
     }
-  });
+  })
 
-  const ttfFont = result.ttf;
+  const ttfFont = result.ttf
   if (ttfFont) {
-    await fs.writeFile(path.resolve(outputDir, `${fontName}.ttf`), ttfFont);
+    await fs.writeFile(path.resolve(outputDir, `${fontName}.ttf`), ttfFont)
   } else {
-    throw new Error("TTF font not generated");
+    throw new Error("TTF font not generated")
   }
 
   const config = {
@@ -79,16 +81,15 @@ async function generateFont(): Promise<void> {
           width: 1024,
         },
         search: metadata.search,
-      };
+      }
     }),
-  };
+  }
 
-  await fs.writeJSON(path.resolve(outputDir, "config.json"), config, {
+  await fs.writeJSON(path.resolve(outputDir, `${fontName}.json`), config, {
     spaces: 2,
-  });
+  })
+
+  console.log("TTF font and config.json generated successfully.")
 }
 
-console.log("Generating font...");
-generateFont()
-  .then(() => console.log("TTF font and config.json generated successfully."))
-  .catch((error) => console.error("Error generating font:", error));
+export default generateFont

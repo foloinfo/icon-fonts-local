@@ -3,11 +3,15 @@
   "packageManager": "yarn@3.5.1",
   "version": "0.0.1",
   "scripts": {
+    "build": "tsc",
     "start": "ts-node src/index.ts"
   },
+  "main": "dist/index.js",
+  "bin": "dist/cli.js",
   "devDependencies": {
     "@types/css": "^0.0.33",
     "@types/fs-extra": "^11.0.1",
+    "@types/node": "^20.3.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
