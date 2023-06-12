@@ -1,11 +1,26 @@
 {
-  "name": "fontello-local",
+  "name": "icon-fonts-local",
   "packageManager": "yarn@3.5.1",
+  "desctiption": "A Node.js library to generate icon fonts from local svg files.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foloinfo/icon-fonts-local.git"
+  },
+  "bugs": {
+    "url": "https://github.com/foloinfo/icon-fonts-local/issues"
+  },
   "version": "0.0.1",
+  "author": "foloinfo",
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/index.ts"
   },
+  "keywords": [
+    "fontello",
+    "build",
+    "icon"
+  ],
   "main": "dist/index.js",
   "bin": "dist/cli.js",
   "devDependencies": {
