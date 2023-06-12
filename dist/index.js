@@ -80,7 +80,6 @@ function generateFont(inputDir, outputDir, fontName) {
         else {
             throw new Error("TTF font not generated");
         }
-        console.log(result);
         const config = {
             name: fontName,
             css_prefix_text: "icon-",
