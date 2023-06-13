@@ -43,7 +43,6 @@ async function generateFont(
           const unicodeStr = unicodeMatch[1].toLowerCase()
           const unicodeNum = parseInt(unicodeStr, 16)
           const name = svgs[index].replace('.svg', '')
-          console.log(rule)
 
           glyphsMetadata.push({
             uid: unicodeStr,
