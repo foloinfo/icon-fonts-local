@@ -9,12 +9,13 @@
   "bugs": {
     "url": "https://github.com/foloinfo/icon-fonts-local/issues"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "foloinfo",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "publish": "yarn build && npm publish --access public"
   },
   "keywords": [
     "fontello",

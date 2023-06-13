@@ -17,6 +17,7 @@ async function generateFont(
 
   // Create webfont
   const result = await webfont.webfont({
+    fontName,
     files: svgs.map((svg) => path.join(inputDir, svg)),
     formats: ['ttf'],
     template: 'css',
@@ -30,7 +31,8 @@ async function generateFont(
   glyphsRules.forEach((rule: any, index: number) => {
     if (rule.type === 'rule') {
       const selectors = rule.selectors
-      const nameMatch = /(?:\.)webfont-(\w+)/.exec(selectors![0])
+      const regex = new RegExp(`(?:\\.)${fontName}-(\\w+)`);
+      const nameMatch = regex.exec(selectors[0]);
 
       if (nameMatch) {
         const cssName = nameMatch[1]
@@ -41,6 +43,7 @@ async function generateFont(
           const unicodeStr = unicodeMatch[1].toLowerCase()
           const unicodeNum = parseInt(unicodeStr, 16)
           const name = svgs[index].replace('.svg', '')
+          console.log(rule)
 
           glyphsMetadata.push({
             uid: unicodeStr,
