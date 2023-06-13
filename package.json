@@ -15,7 +15,7 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "publish": "yarn build && npm publish --access public"
+    "release": "yarn build && npm publish --access public"
   },
   "keywords": [
     "fontello",
