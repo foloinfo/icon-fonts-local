@@ -25,7 +25,7 @@ yarn icon-fonts-local ./path/to/svgs/ ./path/to/fonts/ yourFontName
 
 ### ExpoFont setup example
 
-```
+```tsx
 import { useFonts } from 'expo-font'
 
 const App = ()=> {
@@ -38,7 +38,7 @@ const App = ()=> {
 
 Example of FontIcon.tsx
 
-```
+```tsx
 import { createIconSetFromFontello } from '@expo/vector-icons'
 import config from '@/assets/fonts/yourFontName.json'
 import { ViewStyle } from 'react-native'
